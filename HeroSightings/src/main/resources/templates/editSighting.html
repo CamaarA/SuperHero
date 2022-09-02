@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+            <title>Superhero Sightings</title>
+    </head>
+    <body>
+        <!-- Main Body of Page -->
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center border border-dark">
+                    <h1><a href="/" class="text-dark">SuperHero Sightings</a></h1>
+                </div>
+            </div>
+            <div class="row m-4">
+                <button class="btn btn-secondary"><a href="/sightings"><- Go Back To Sightings</a></button>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Edit Sighting</span>
+                </div>
+                <div class="col-7 text-center m-3">
+                    <form action="editSighting" method="POST">
+                        <input type="date" class="form-control m-2" name="date" th:value="${sighting.date}" required/>
+                        <select type="text" class="form-control m-2" name="locationId">
+                            <option th:each="loc : ${locations}"
+                                    th:value="${loc.id}"
+                                    th:text="${loc.name}"
+                                    th:selected="${sighting.location.equals(loc)}"></option>
+                        </select>
+                        <select multiple type="text" class="form-control m-2" name="heroId">
+                            <option th:each="hero : ${heroes}"
+                                    th:value="${hero.id}"
+                                    th:text="${hero.name}"
+                                    th:selected="${sighting.heroes.contains(hero)}"></option>
+                        </select>
+                        <div th:if="${#fields.hasErrors('sighting.heroes')}">
+                            <p th:each="error : ${#fields.errors('sighting.heroes')}" 
+                               class="alert alert-danger" th:text="${error}"></p>
+                        </div>
+                        <input type="hidden" name="id" th:value="${sighting.id}"/>
+                        <button type="submit" class="btn btn-primary btn-block m-2">Update Sighting</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- End main body -->
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
